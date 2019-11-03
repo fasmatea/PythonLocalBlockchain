@@ -19,6 +19,7 @@ class Block:
         print(f'timestamp: {self.timestamp}')
         print(f'transactions: {self.transactions}')
         print(f'current hash: {self.hash}')
+        print(f'previous hash: {self.previous_hash}')
 
     def generate_hash(self):
         """Hash the block's contents"""
