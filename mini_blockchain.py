@@ -2,33 +2,47 @@
 
 """Mini blockchain using Python."""
 
+import time
 from blockchain import Blockchain
-from transactions import mempool
+import mempool
 
 
 def main():
     """main function"""
 
-    # prepare 100 transactions from the mempool for block structure
-    block_transactions = [mempool.pop(0) for i in range(3)]
-
-    my_blockchain = Blockchain()
-    my_blockchain.add_block(block_transactions)
-
-    # SUMMARY:
-
-    block_one_transactions = {"sender": "Alice", "receiver": "Bob", "amount": "50"}
-    block_two_transactions = {"sender": "Bob", "receiver": "Cole", "amount": "25"}
-    block_three_transactions = {"sender": "Alice", "receiver": "Cole", "amount": "35"}
-    fake_transactions = {"sender": "Bob", "receiver": "Cole, Alice", "amount": "25"}
+    # generate mempool with random values for 10 000 transacations
+    local_mempool = mempool.create_mempool(10 * 1000)
+    print('Mempool created.')
 
     local_blockchain = Blockchain()
+    print('Blockchain initialized.')
     local_blockchain.print_blocks()
-    local_blockchain.add_block(block_one_transactions)
-    local_blockchain.add_block(block_two_transactions)
-    local_blockchain.add_block(block_three_transactions)
-    local_blockchain.print_blocks()
+
+    time.sleep(3)
+
+    print('Adding blocks from the mempool...')
+    time.sleep(2)
+
+    while len(local_mempool) > 0:
+        # prepare 100 transactions from the mempool for one block
+        # the 100 transactions are removed from the mempool at the same time
+        block_transactions = [local_mempool.pop(0) for i in range(100)]
+        local_blockchain.add_block(block_transactions)
+        local_blockchain.print_blocks()
+
+    local_blockchain.validate_chain()
+
+    time.sleep(3)
+
+    fake_transactions = {
+        "amount": "25",
+        "sender": "Bob",
+        "receiver": "Alice",
+    }
+
+    print('Modifying a transaction...')
     local_blockchain.chain[2].transactions = fake_transactions
+    time.sleep(2)
     local_blockchain.validate_chain()
 
 
