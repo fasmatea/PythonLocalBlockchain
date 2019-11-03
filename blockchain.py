@@ -66,12 +66,12 @@ class Blockchain:
     def proof_of_work(self, block, difficulty=2):
         """Implement a proof of work in the blockchain."""
 
-        self.proof = block.hash
+        proof = block.hash
 
-        while not self.proof.startswith('0' * difficulty):
+        while not proof.startswith('0' * difficulty):
             block.nonce += 1
-            self.proof = block.generate_hash()
+            proof = block.generate_hash()
 
         block.nonce = 0
 
-        return self.proof
+        return proof
