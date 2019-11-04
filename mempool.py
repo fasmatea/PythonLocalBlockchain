@@ -1,4 +1,7 @@
-"""This file initializes data to create the mempool containing transactions."""
+"""This file initializes data to create a mempool containing random
+transactions. It is only used for the example script, since in a real scenario
+we will be populating the blockchain with actual values.
+"""
 
 from random import randint, choice
 

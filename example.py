@@ -1,14 +1,13 @@
 #!/usr/bin/python3
 
-"""Mini blockchain using Python."""
+"""Example implementation of a simple blockchain using Python."""
 
-import time
 from blockchain import Blockchain
 import mempool
 
 
 def main():
-    """main function"""
+    """Command line utility to see a simple blockchain in action."""
 
     # generate mempool with random values for 10 000 transactions
     local_mempool = mempool.create_mempool(10 * 1000)
