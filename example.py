@@ -36,7 +36,9 @@ def main():
         # prepare 100 transactions from the mempool for one block
         # the 100 transactions are removed from the mempool at the same time
         block_transactions = [local_mempool.pop(0) for i in range(100)]
-        print(f'Proof: {local_blockchain.add_block(block_transactions)[0]}')
+        local_blockchain.add_block(block_transactions)
+        print(f'Proof for block {len(local_blockchain.chain) - 1}: '
+              f'{local_blockchain.chain[-1].proof}')
 
     input("...Show blocks >>>")
     local_blockchain.print_blocks()

@@ -11,6 +11,7 @@ class Block:
         self.timestamp = datetime.now()
         self.transactions = transactions
         self.previous_hash = previous_hash
+        self.proof = '0'
         self.nonce = nonce
         self.hash = self.generate_hash()
 

@@ -22,8 +22,7 @@ class Blockchain:
     def print_blocks(self):
         """Print contents of blockchain."""
 
-        for i in range(len(self.chain)):
-            current_block = self.chain[i]
+        for i, current_block in enumerate(self.chain):
             print('=====')
             print(f'Block {i} {current_block}')
             current_block.print_block()
@@ -36,9 +35,10 @@ class Blockchain:
         previous_block_hash = self.chain[-1].hash
         new_block = Block(transactions, previous_block_hash)
         proof = self.proof_of_work(new_block)
+        new_block.proof = proof
         self.chain.append(new_block)
 
-        return proof, new_block
+        return new_block
 
     def validate_chain(self):
         """Check to see if blocks are linked to each other properly."""
