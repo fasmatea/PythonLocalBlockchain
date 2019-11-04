@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-"""Example implementation of a simple blockchain using Python."""
+"""Example implementation of a simple CLI blockchain using Python."""
 
 from blockchain import Blockchain
 import mempool

@@ -17,8 +17,6 @@ class Blockchain:
         genesis_block = Block(transactions, '0')
         self.chain.append(genesis_block)
 
-        return self.chain
-
     def print_blocks(self):
         """Print contents of blockchain."""
 
