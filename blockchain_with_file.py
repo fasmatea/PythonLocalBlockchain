@@ -26,7 +26,7 @@ def main():
                 bc_file.write(f'previous hash: {block.previous_hash}\n')
                 bc_file.write(f'proof of work: {block.proof}\n')
                 bc_file.write('=====\n')
-        print('No blockchain was found. Created new blockchain.')
+        print('No blockchain was found, created new blockchain.')
 
 
 if __name__ == '__main__':
