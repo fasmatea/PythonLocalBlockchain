@@ -45,12 +45,20 @@ def add_new_transactions_to_blockchain(blockchain):
     """
 
     mempool = []
-    nb_of_new_transactions = int(input(
-        "How many transactions do you wish to add to the mempool? "
-    ))
+    nb_of_new_transactions = None
+    while not nb_of_new_transactions:
+        try:
+            nb_of_new_transactions = int(input(
+                "How many transactions do you wish to add to the mempool? "
+            ))
+            if nb_of_new_transactions == 0:
+                break
+
+        except ValueError:
+            print('We need a number here. Try again.')
 
     for i in range(nb_of_new_transactions):
-        print(f'Adding transactions #{i}\n')
+        print(f'\nAdding transaction #{i + 1}\n')
         sender = input('sender: ')
         receiver = input('receiver: ')
         amount = input('amount: ')
@@ -61,9 +69,10 @@ def add_new_transactions_to_blockchain(blockchain):
         )
         mempool.append(new_transaction)
 
-    blockchain.add_block(mempool)
-    print('Block added to blockchain.')
-    print(f'Proof: {blockchain.chain[-1].proof}')
+    if len(mempool) > 0:
+        blockchain.add_block(mempool)
+        print('Block added to blockchain.')
+        print(f'Proof: {blockchain.chain[-1].proof}')
 
     write_blockchain_to_file(FILENAME, blockchain)
 
@@ -103,6 +112,8 @@ def read_blockchain_from_file(filename):
             elif line_nb % 8 == 7:
                 # separator
                 pass
+
+    print('Blockchain loaded.')
 
     return blockchain
 
