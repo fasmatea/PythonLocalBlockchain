@@ -9,6 +9,7 @@ class Blockchain:
         self.chain = []
         self.all_transactions = []
         self.genesis_block()
+        self.proof_difficulty = 2
 
     def genesis_block(self):
         """First block of the Blockchain"""
@@ -61,12 +62,12 @@ class Blockchain:
 
         return True
 
-    def proof_of_work(self, block, difficulty=2):
+    def proof_of_work(self, block):
         """Implement a proof of work in the blockchain."""
 
         proof = block.hash
 
-        while not proof.startswith('0' * difficulty):
+        while not proof.startswith('0' * self.proof_difficulty):
             block.nonce += 1
             proof = block.generate_hash()
 
