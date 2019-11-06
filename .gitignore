@@ -1,5 +1,3 @@
-*.sublime-project
-*.sublime-workspace
 *.pyc
 __pycache__
 written_blockchain
