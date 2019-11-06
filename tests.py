@@ -4,9 +4,6 @@ import unittest
 from blockchain import Blockchain
 
 
-# TODO write following tests:
-
-
 class TestBlockchain(unittest.TestCase):
     """TestCase for Blockchains."""
 
@@ -27,7 +24,7 @@ class TestBlock(unittest.TestCase):
     def test_genesis_block_has_previous_hash_of_0(self):
         """Genesis block should have a previous hash of 0."""
 
-        self.assertEqual(self.blockchain.chain[0].previous_hash, 0)
+        self.assertEqual(self.blockchain.chain[0].previous_hash, '0')
 
     def test_block_proof_starts_with_difficulty_zeros(self):
         """Block proof should always start with {difficulty} zeros."""
