@@ -83,28 +83,35 @@ def read_blockchain_from_file(filename):
     Return the blockchain.
     """
 
+    # new empty blockchain
     blockchain = Blockchain()
 
-    # TODO: handle when file is empty
+    try:
+        with open(filename, 'r') as bc_file:
+            json_string = bc_file.read()
+            json_blockchain_contents = json.loads(json_string)
 
-    # empty the blockchain because we're adding all the values from file.
-    blockchain.chain.clear()
+    except json.decoder.JSONDecodeError:
+        print('The file was found but was empty. Created new blockchain.')
+        # The file was empty so return the blockchain we just initialized
+        return blockchain
 
-    with open(filename, 'r') as bc_file:
-        json_string = bc_file.read()
-        blockchain_contents = json.loads(json_string)
-        for i, block in enumerate(blockchain_contents):
-            # we create an empty block
-            blockchain.chain.append(Block({}, '0'))
+    else:
+        # empty the blockchain because we're adding all the values from file.
+        blockchain.chain.clear()
 
-            # we override its attributes
-            blockchain.chain[i].hash = block['hash']
-            blockchain.chain[i].previous_hash = block['previous_hash']
-            blockchain.chain[i].proof = block['proof']
-            blockchain.chain[i].timestamp = block['timestamp']
-            blockchain.chain[i].transactions = block['transactions']
+    for i, block in enumerate(json_blockchain_contents):
+        # we create an empty block
+        blockchain.chain.append(Block({}, '0'))
 
-    print('Blockchain loaded.')
+        # we override its attributes
+        blockchain.chain[i].hash = block['hash']
+        blockchain.chain[i].previous_hash = block['previous_hash']
+        blockchain.chain[i].proof = block['proof']
+        blockchain.chain[i].timestamp = block['timestamp']
+        blockchain.chain[i].transactions = block['transactions']
+
+    print('Blockchain successfully loaded.')
 
     return blockchain
 
