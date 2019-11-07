@@ -5,11 +5,12 @@ ie. exporting it to a file each time it gets modified.
 """
 
 import os
+import json
 from blockchain import Blockchain
 from block import Block
 
 
-FILENAME = 'written_blockchain'
+FILENAME = 'written_blockchain.json'
 
 
 def main():
@@ -71,8 +72,8 @@ def add_new_transactions_to_blockchain(blockchain):
 
     if len(mempool) > 0:
         blockchain.add_block(mempool)
-        print('Block added to blockchain.')
-        print(f'Proof: {blockchain.chain[-1].proof}')
+        print('\nBlock added to blockchain.')
+        print(f'Proof: {blockchain.chain[-1].proof}\n')
 
     write_blockchain_to_file(FILENAME, blockchain)
 
@@ -83,6 +84,8 @@ def read_blockchain_from_file(filename):
     """
 
     blockchain = Blockchain()
+
+    # TODO: handle when file is empty
 
     # empty the blockchain because we're adding all the values from file.
     blockchain.chain.clear()
@@ -122,15 +125,21 @@ def write_blockchain_to_file(filename, blockchain):
     """Write each block of the blockchain one after the other in a textfile."""
 
     with open(filename, 'w') as bc_file:
-        for i, block in enumerate(blockchain.chain):
-            bc_file.write('=====\n')
-            bc_file.write(f'Block {i}:\n')
-            bc_file.write(f'{block.timestamp}\n')
-            bc_file.write(f'{block.transactions}\n')
-            bc_file.write(f'{block.hash}\n')
-            bc_file.write(f'{block.previous_hash}\n')
-            bc_file.write(f'{block.proof}\n')
-            bc_file.write('=====\n')
+        blockchain_contents = [
+            dict(
+                block_index=i,
+                timestamp=str(block.timestamp),
+                transactions=block.transactions,
+                hash=block.hash,
+                previous_hash=block.previous_hash,
+                proof=block.proof,
+            )
+            for i, block in enumerate(blockchain.chain)
+        ]
+
+        bc_file.write(
+            json.dumps(blockchain_contents, indent=4, sort_keys=True)
+        )
 
 
 if __name__ == '__main__':
