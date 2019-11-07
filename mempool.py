@@ -18,6 +18,7 @@ def create_name(min_letters, max_letters):
     """
 
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
+
     return ''.join([
         choice(alphabet)
         for i in range(randint(min_letters, max_letters))
@@ -28,7 +29,7 @@ def create_transaction():
     """Create one transaction from random values."""
 
     return dict(
-        sender=create_name(3, 10),
-        receiver=create_name(3, 10),
         amount=randint(0, 1000),
+        receiver=create_name(3, 10),
+        sender=create_name(3, 10),
     )
