@@ -64,9 +64,9 @@ def add_new_transactions_to_blockchain(blockchain):
         receiver = input('receiver: ')
         amount = input('amount: ')
         new_transaction = dict(
-            sender=sender,
-            receiver=receiver,
             amount=amount,
+            receiver=receiver,
+            sender=sender,
         )
         mempool.append(new_transaction)
 
@@ -91,30 +91,18 @@ def read_blockchain_from_file(filename):
     blockchain.chain.clear()
 
     with open(filename, 'r') as bc_file:
-        # One block has 8 lines, the first and last being the separators
-        for line_nb, line in enumerate(bc_file.readlines()):
-            if line_nb % 8 == 0:
-                # separator
-                pass
-            elif line_nb % 8 == 1:
-                # Here we get the block number and we create the Block
-                block_nb = line_nb // 8
-                blockchain.chain.append(Block({}, '0'))
-            # For the next few lines we replace the Block attributes by the
-            # appropiate values. For each line we ommit the last char, (\n).
-            elif line_nb % 8 == 2:
-                blockchain.chain[block_nb].timestamp = line[:-1]
-            elif line_nb % 8 == 3:
-                blockchain.chain[block_nb].transactions = line[:-1]
-            elif line_nb % 8 == 4:
-                blockchain.chain[block_nb].hash = line[:-1]
-            elif line_nb % 8 == 5:
-                blockchain.chain[block_nb].previous_hash = line[:-1]
-            elif line_nb % 8 == 6:
-                blockchain.chain[block_nb].proof = line[:-1]
-            elif line_nb % 8 == 7:
-                # separator
-                pass
+        json_string = bc_file.read()
+        blockchain_contents = json.loads(json_string)
+        for i, block in enumerate(blockchain_contents):
+            # we create an empty block
+            blockchain.chain.append(Block({}, '0'))
+
+            # we override its attributes
+            blockchain.chain[i].hash = block['hash']
+            blockchain.chain[i].previous_hash = block['previous_hash']
+            blockchain.chain[i].proof = block['proof']
+            blockchain.chain[i].timestamp = block['timestamp']
+            blockchain.chain[i].transactions = block['transactions']
 
     print('Blockchain loaded.')
 
